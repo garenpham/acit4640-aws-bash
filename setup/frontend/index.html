@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>ACIT4640 Python + Mongo</title>
+    <style type="text/css">
+        img.qrcode {
+            width: 200px;
+            height: 200px;
+            background: transparent url(https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/source.gif) no-repeat center center;
+        }
+    </style>
+    <script>
+        function createElem(tag, text) {
+            elem = document.createElement(tag)
+            elem.textContent = text
+            return elem
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            let xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                let placeholder = document.getElementById('json-response')
+                document.getElementById('initial-text').remove()
+                let data = JSON.parse(xhr.responseText);
+
+                // Process our return data
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    // Runs when the request is successful
+                    data.forEach(elem => {
+                        let h5Elem = createElem("h5", "Name: " + elem.student_name + " | ID: " + elem.student_id)
+                        placeholder.appendChild(h5Elem)
+                    })
+                } else {
+                    let h5Elem = createElem("h5", "Received HTTP status " + xhr.status + " from the backend!");
+                    let errorMessage = createElem("code", data.message)
+                    placeholder.appendChild(h5Elem);
+                    placeholder.appendChild(errorMessage);
+                }
+
+            };
+            xhr.open('GET', '/json');
+            xhr.send();
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container text-center">
+        <h1>Practice 4640</h1>
+        <h6>Below this line are dynamic elements loaded from the backend. Look at the JavaScript console!</h6>
+        <hr />
+        <div id="json-response" class="mt-2">
+            <h5 id="initial-text">Waiting for the response from the backend...</h5>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
